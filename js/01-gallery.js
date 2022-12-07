@@ -1,18 +1,7 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
+
 console.log(galleryItems);
-
-// addBasicLightBoxScript();
-
-// function addBasicLightBoxScript() {
-//   const lightBoxLink = `<link rel="stylesheet"
-//   href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css"/>`;
-//   document.head.insertAdjacentHTML('beforeend', lightBoxLink);
-
-//   const lightBoxScript = `<script
-//   src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>`;
-//   document.body.insertAdjacentHTML('beforeend', lightBoxScript);
-// }
 
 let modalImage;
 const gallery = document.querySelector('.gallery');
