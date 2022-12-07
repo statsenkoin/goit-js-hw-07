@@ -1,15 +1,24 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
-// console.log(galleryItems);
+console.log(galleryItems);
 
-addBasicLightBoxScript();
+// addBasicLightBoxScript();
 
+// function addBasicLightBoxScript() {
+//   const lightBoxLink = `<link rel="stylesheet"
+//   href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css"/>`;
+//   document.head.insertAdjacentHTML('beforeend', lightBoxLink);
+
+//   const lightBoxScript = `<script
+//   src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>`;
+//   document.body.insertAdjacentHTML('beforeend', lightBoxScript);
+// }
+
+let modalImage;
 const gallery = document.querySelector('.gallery');
-console.log(gallery);
+gallery.addEventListener('click', onImageClick);
 
 createMarkUp();
-
-gallery.addEventListener('click', onImageClick);
 
 function createMarkUp() {
   const markup = galleryItems.reduce(
@@ -34,30 +43,23 @@ function createMarkUp() {
 function onImageClick(e) {
   e.preventDefault();
   if (e.target.nodeName !== 'IMG') return;
-  const image = e.target.dataset.source;
-  const imageAlt = e.target.alt;
-  onShowImage(image, imageAlt);
+  const item = e.target;
+  onImageShow(item.dataset.source, item.alt);
 }
 
-function addBasicLightBoxScript() {
-  const lightBoxLink = `<link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css"
-      />`;
-  document.head.insertAdjacentHTML('beforeend', lightBoxLink);
-  //   const lightBoxScript =
-  //     '<script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>';
-  //   document.body.insertAdjacentHTML('beforeend', lightBoxScript);
-  const lightBoxScript = document.createElement('script');
-  lightBoxScript.src =
-    '<script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>';
-  document.body.appendChild(lightBoxScript);
+function onImageShow(imageSrc, imageAlt) {
+  modalImage = basicLightbox.create(
+    `<img src="${imageSrc}" alt="${imageAlt}">`,
+    {
+      onShow: () => window.addEventListener('keydown', onImageEscClose),
+    },
+    {
+      onClose: () => window.removeEventListener('keydown', onImageEscClose),
+    }
+  );
+  modalImage.show();
 }
 
-function onShowImage(image, imageAlt) {
-  const instance = basicLightbox.create(`
-    <img src="${image}" alt="${imageAlt}" >
-`);
-
-  instance.show();
+function onImageEscClose(e) {
+  if (e.code === 'Escape') modalImage.close();
 }
